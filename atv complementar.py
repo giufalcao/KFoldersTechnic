@@ -36,7 +36,7 @@ def scores(file, clf_name, metodo, target_test, prediction, output):
             #print(f"{classification_report(self.treated_data.target_test, self.prediction)}")
         pass
 
-dir = 'datasets/'
+dir = '/datasets/'
 output = 'output.csv'
 names=[]
 acuracia = [] 
@@ -47,6 +47,9 @@ fscore = []
 for file in listdir(dir):
     # Le arquivo CSV, para pandas dataframe
     data = pd.read_csv(dir + file, comment='@', header=None)
+    
+    with open(output, 'wt') as out_file: 
+        out_file.writelines('\"Descrição\",\"Acurácia\",\"F1-Score\",\"Recall\",\"Precisão,MCC\"\n')
 
     # transforma dados categóricos em dados numéricos ()
     encoder = LabelEncoder()
@@ -54,9 +57,8 @@ for file in listdir(dir):
 
     # transforma o dataframe em uma matriz com os features (ft) e 
     # cria um vetor com os alvos/targets (tg), nome das classes 
-
-    ft = data.iloc[:, 0:-1]
-    tg = data.iloc[:,-1]
+    ft = data.drop(9, axis=1)
+    tg = data[9]
     
     scaler = MinMaxScaler(feature_range=(0, 1))
     ft = scaler.fit_transform(ft)
@@ -70,21 +72,19 @@ for file in listdir(dir):
         dt.fit(ft_train, tg_train)
         pred = dt.predict(ft_test)
         #precision.append(dt.precision(ft_test, tg_test))   
-        scores("Decision Tree", pred, "MinMaxScaler", tg_test, file, output)
+        scores(file, "Decision Tree", "MinMaxScaler", tg_test, pred, output)
      
         naive_bayes = GaussianNB()
         naive_bayes.fit(ft_train, tg_train)
         pred = naive_bayes.predict(ft_test)
-        scores("Naive Bayes", pred, "MinMaxScaler", tg_test, file, output)
+        scores(file, "Naive Bayes", "MinMaxScaler", tg_test, pred, output)
         
         rfc = RandomForestClassifier(n_estimators=40, criterion='entropy', random_state=0)
         rfc.fit(ft_train, tg_train)
         pred = rfc.predict(ft_test)
-        scores("Random Forest", pred, "MinMaxScaler", tg_test, file, output)
+        scores(file, "Random Forest", "MinMaxScaler", tg_test, pred, output)
         
         svclassifier = SVC(kernel='linear')  
         svclassifier.fit(ft_train, tg_train)
         pred = svclassifier.predict(ft_test)  
-        scores("SVC", pred, "MinMaxScaler", tg_test, file, output)
-
-    
+        scores(file, "SVC", "MinMaxScaler", tg_test, pred, output)
