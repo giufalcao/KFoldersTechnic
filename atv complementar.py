@@ -57,8 +57,8 @@ for file in listdir(dir):
 
     # transforma o dataframe em uma matriz com os features (ft) e 
     # cria um vetor com os alvos/targets (tg), nome das classes 
-    ft = data.drop(9, axis=1)
-    tg = data[9]
+    ft = data.iloc[:, 0:-1]
+    tg = data.iloc[:,-1]
     
     scaler = MinMaxScaler(feature_range=(0, 1))
     ft = scaler.fit_transform(ft)
