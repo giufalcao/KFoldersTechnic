@@ -1,4 +1,4 @@
-# KFoldersTechnic
+# K-folders technic
 
 Atividade da cadeira de Ensemblers 
 
