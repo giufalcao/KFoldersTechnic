@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu May 30 21:06:37 2019
-
 @author: Falcao
 """
 
@@ -28,9 +27,9 @@ def scores(file, clf_name, metodo, target_test, prediction, output):
         with open(output, 'at') as out_file:
             line = f"\"{file} - {clf_name} - {metodo} - Treino \n \","
             line += f"{accuracy_score(target_test, prediction)},"
-            line += f"{matthews_corrcoef(target_test, prediction)},"
             line += f"{f1_score(target_test, prediction,average='macro')},"
             line += f"{recall_score(target_test, prediction, average='macro')},"
+            line += f"{matthews_corrcoef(target_test, prediction)},"
             line += f"{precision_score(target_test, prediction, average='macro')}\n"
             out_file.writelines(line)
             #print(f"{classification_report(self.treated_data.target_test, self.prediction)}")
@@ -38,18 +37,13 @@ def scores(file, clf_name, metodo, target_test, prediction, output):
 
 dir = 'datasets/'
 output = 'output.csv'
-names=[]
-acuracia = [] 
-precision = []
-mcc = []
-fscore = []
+
+with open(output, 'wt') as out_file: 
+        out_file.writelines('\"Descrição\",\"Acurácia\",\"F1-Score\",\"Recall\",\"MCC\",\"Precisão"\n')
 
 for file in listdir(dir):
     # Le arquivo CSV, para pandas dataframe
-    data = pd.read_csv(dir + file, comment='@', header=None)
-    
-    with open(output, 'wt') as out_file: 
-        out_file.writelines('\"Descrição\",\"Acurácia\",\"F1-Score\",\"Recall\",\"Precisão,MCC\"\n')
+    data = pd.read_csv(dir+file, comment='@', header=None)
 
     # transforma dados categóricos em dados numéricos ()
     encoder = LabelEncoder()
