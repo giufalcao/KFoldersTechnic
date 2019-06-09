@@ -36,7 +36,7 @@ def scores(file, clf_name, metodo, target_test, prediction, output):
             #print(f"{classification_report(self.treated_data.target_test, self.prediction)}")
         pass
 
-dir = '/datasets/'
+dir = 'datasets/'
 output = 'output.csv'
 names=[]
 acuracia = [] 
