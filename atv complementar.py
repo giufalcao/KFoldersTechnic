@@ -71,13 +71,7 @@ for file in listdir(dir):
         dt = DecisionTreeClassifier(random_state=0)
         dt.fit(ft_train, tg_train)
         pred = dt.predict(ft_test)
-        #precision.append(dt.precision(ft_test, tg_test))   
         scores(file, "Decision Tree", "MinMaxScaler", tg_test, pred, output)
-     
-        naive_bayes = GaussianNB()
-        naive_bayes.fit(ft_train, tg_train)
-        pred = naive_bayes.predict(ft_test)
-        scores(file, "Naive Bayes", "MinMaxScaler", tg_test, pred, output)
         
         rfc = RandomForestClassifier(n_estimators=40, criterion='entropy', random_state=0)
         rfc.fit(ft_train, tg_train)
@@ -88,3 +82,8 @@ for file in listdir(dir):
         svclassifier.fit(ft_train, tg_train)
         pred = svclassifier.predict(ft_test)  
         scores(file, "SVC", "MinMaxScaler", tg_test, pred, output)
+             
+        naive_bayes = GaussianNB()
+        naive_bayes.fit(ft_train, tg_train)
+        pred = naive_bayes.predict(ft_test)
+        scores(file, "Naive Bayes", "MinMaxScaler", tg_test, pred, output)
