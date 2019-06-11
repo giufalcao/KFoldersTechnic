@@ -26,11 +26,11 @@ warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 def scores(file, clf_name, metodo, target_test, prediction, output):
         with open(output, 'at') as out_file:
             line = f"\"{file} - {clf_name} - {metodo} - Treino \n \","
-            line += f"{accuracy_score(target_test, prediction)},"
-            line += f"{f1_score(target_test, prediction,average='macro')},"
-            line += f"{recall_score(target_test, prediction, average='macro')},"
             line += f"{matthews_corrcoef(target_test, prediction)},"
-            line += f"{precision_score(target_test, prediction, average='macro')}\n"
+            line += f"{accuracy_score(target_test, prediction)},"
+            line += f"{recall_score(target_test, prediction, average='macro')},"
+            line += f"{precision_score(target_test, prediction, average='macro')},"
+            line += f"{f1_score(target_test, prediction,average='macro')}\n"
             out_file.writelines(line)
             #print(f"{classification_report(self.treated_data.target_test, self.prediction)}")
         pass
@@ -39,7 +39,7 @@ dir = 'datasets/'
 output = 'output.csv'
 
 with open(output, 'wt') as out_file: 
-        out_file.writelines('\"Descrição\",\"Acurácia\",\"F1-Score\",\"Recall\",\"MCC\",\"Precisão"\n')
+        out_file.writelines('\"Descrição\",\"MCC\",\"Acurácia\",\"Recall\",\"Precisão\",\"F1-Score"\n')
 
 for file in listdir(dir):
     # Le arquivo CSV, para pandas dataframe
